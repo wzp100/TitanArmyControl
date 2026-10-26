@@ -1,0 +1,16 @@
+# SwiftPM / Xcode
+.build/
+.swiftpm/
+DerivedData/
+*.xcuserstate
+xcuserdata/
+
+# Build outputs (scripts/build-app.sh, scripts/build-audio-driver.sh)
+build/
+
+# Compiled local probe binaries; their sources stay tracked
+probe/probe
+probe/probe2
+
+# macOS
+.DS_Store
