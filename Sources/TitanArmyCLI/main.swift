@@ -8,7 +8,7 @@ let arguments = Array(CommandLine.arguments.dropFirst())
 
 func usage() -> Never {
     print("""
-    TitanArmy CLI - macOS control for the Titan Army P275MV PLUS
+    titanarmyctl - macOS CLI for TitanArmyControl and the Titan Army P275MV PLUS
 
     USAGE
       titanarmyctl audio status            Inspect audio routing and native volume

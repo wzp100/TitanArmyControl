@@ -1,15 +1,15 @@
 #!/bin/bash
-# Builds TitanArmy.app (a self-contained, ad-hoc signed macOS bundle).
+# Builds TitanArmyControl.app (a self-contained, ad-hoc signed macOS bundle).
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT"
 
 CONFIG="${1:-release}"
-APP="$ROOT/build/TitanArmy.app"
+APP="$ROOT/build/TitanArmyControl.app"
 
 echo "==> Building ($CONFIG)"
-swift build -c "$CONFIG" --product TitanArmy
+swift build -c "$CONFIG" --product TitanArmyControl
 swift build -c "$CONFIG" --product titanarmyctl
 BIN_DIR="$(swift build -c "$CONFIG" --show-bin-path)"
 
@@ -19,7 +19,7 @@ echo "==> Assembling $APP"
 rm -rf "$APP"
 mkdir -p "$APP/Contents/MacOS" "$APP/Contents/Resources"
 
-cp "$BIN_DIR/TitanArmy" "$APP/Contents/MacOS/TitanArmy"
+cp "$BIN_DIR/TitanArmyControl" "$APP/Contents/MacOS/TitanArmyControl"
 cp "$BIN_DIR/titanarmyctl" "$APP/Contents/MacOS/titanarmyctl"
 cp "$ROOT/Assets/AppIcon.icns" "$APP/Contents/Resources/AppIcon.icns"
 cp -R "$ROOT/build/TitanArmyAudio.driver" "$APP/Contents/Resources/"
@@ -31,9 +31,9 @@ cat > "$APP/Contents/Info.plist" <<'PLIST'
 <plist version="1.0">
 <dict>
     <key>CFBundleName</key>
-    <string>TitanArmy</string>
+    <string>TitanArmyControl</string>
     <key>CFBundleDisplayName</key>
-    <string>Titan Army</string>
+    <string>TitanArmyControl</string>
     <key>CFBundleIdentifier</key>
     <string>local.titanarmy.control</string>
     <key>CFBundleVersion</key>
@@ -43,7 +43,7 @@ cat > "$APP/Contents/Info.plist" <<'PLIST'
     <key>CFBundlePackageType</key>
     <string>APPL</string>
     <key>CFBundleExecutable</key>
-    <string>TitanArmy</string>
+    <string>TitanArmyControl</string>
     <key>CFBundleIconFile</key>
     <string>AppIcon</string>
     <key>CFBundleDevelopmentRegion</key>

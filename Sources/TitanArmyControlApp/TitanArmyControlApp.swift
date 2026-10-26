@@ -2,7 +2,7 @@ import SwiftUI
 import TitanArmyCore
 
 @main
-struct TitanArmyApp: App {
+struct TitanArmyControlApp: App {
     @StateObject private var model: MonitorViewModel
     @StateObject private var audio = SystemAudioModel()
     @AppStorage("uiLanguage") private var storedLanguage = AppLanguage.systemDefault.rawValue
@@ -21,7 +21,7 @@ struct TitanArmyApp: App {
     }
 
     var body: some Scene {
-        WindowGroup("Titan Army") {
+        WindowGroup("TitanArmyControl") {
             ContentView(page: snapshot?.page ?? .display, language: snapshot?.language)
                 .environmentObject(model)
                 .environmentObject(audio)

@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "vectors": [
+    {
+      "name": "read brightness",
+      "kind": "request",
+      "vcp": "0x10",
+      "bytes": ["0x82", "0x01", "0x10", "0xAC"]
+    },
+    {
+      "name": "write brightness 50",
+      "kind": "request",
+      "vcp": "0x10",
+      "value": 50,
+      "bytes": ["0x84", "0x03", "0x10", "0x00", "0x32", "0x9A"]
+    },
+    {
+      "name": "read volume",
+      "kind": "request",
+      "vcp": "0x62",
+      "bytes": ["0x82", "0x01", "0x62", "0xDE"]
+    }
+  ]
+}

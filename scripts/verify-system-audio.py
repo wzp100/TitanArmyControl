@@ -17,7 +17,7 @@ import wave
 from zoneinfo import ZoneInfo
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
-CLI = ROOT / 'build/TitanArmy.app/Contents/MacOS/titanarmyctl'
+CLI = ROOT / 'build/TitanArmyControl.app/Contents/MacOS/titanarmyctl'
 UID = 'TitanArmyAudio_Device_v1'
 
 
@@ -104,7 +104,7 @@ try:
         record('system unmute resumes audio', resumed)
 
         if args.quit_panel:
-            expected = str(ROOT / 'build/TitanArmy.app/Contents/MacOS/TitanArmy')
+            expected = str(ROOT / 'build/TitanArmyControl.app/Contents/MacOS/TitanArmyControl')
             for line in subprocess.check_output(['ps', '-axo', 'pid=,args='], text=True).splitlines():
                 parts = line.strip().split(None, 1)
                 if len(parts) == 2 and (parts[1] == expected or parts[1].startswith(expected + ' ')):
@@ -142,4 +142,4 @@ finally:
         destination.mkdir(parents=True, exist_ok=True)
         (destination / 'SystemAudioValidation.json').write_text(json.dumps(report, ensure_ascii=False, indent=2) + '\n')
         if args.quit_panel:
-            subprocess.run(['open', str(ROOT / 'build/TitanArmy.app')])
+            subprocess.run(['open', str(ROOT / 'build/TitanArmyControl.app')])

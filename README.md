@@ -7,7 +7,13 @@
 ## 平台状态
 
 - macOS 27+：已实现，使用 SwiftUI 与 Apple Silicon `IOAVService`。
-- Windows：开发中，计划使用 Microsoft.UI.Reactor 与 `dxva2.dll` DDC/CI API。
+- Windows：Microsoft.UI.Reactor 外壳、独立业务核心与 `dxva2.dll` DDC/CI
+  适配层已建立，界面与官方工具一样分为 7 页；Windows 实机运行与打包仍需在
+  Windows 主机验证。
+
+两端共用 `shared/profile.contract.json` 与 `shared/ddc-vectors.json`。所有显示器
+能力、寄存器、范围、枚举和写入顺序以共享契约为准，UI 不直接访问寄存器。
+架构说明见 `docs/architecture.md`，Windows 构建说明见 `windows/README.md`。
 
 界面支持简体中文与英文，首次启动跟随系统语言，可在应用内即时切换。
 
@@ -23,22 +29,26 @@
 
 ```sh
 cd /Users/jackcuda/Desktop/Code/TitanArmyControl
-open build/TitanArmy.app
+open build/TitanArmyControl.app
 ```
 
 应用使用临时签名，仅适合在本机运行。首次启动若被系统拦截，请在
 “系统设置 → 隐私与安全性”中允许打开。
 
+旧版本安装的 `/Applications/TitanArmy.app` 不会自动删除或被覆盖。首次切换到
+新名称时，请打开 `TitanArmyControl.app`；确认可正常使用后，可自行将旧应用移到
+废纸篓。
+
 命令行工具位于：
 
 ```text
-build/TitanArmy.app/Contents/MacOS/titanarmyctl
+build/TitanArmyControl.app/Contents/MacOS/titanarmyctl
 ```
 
 ## 命令行
 
 ```sh
-CLI=build/TitanArmy.app/Contents/MacOS/titanarmyctl
+CLI=build/TitanArmyControl.app/Contents/MacOS/titanarmyctl
 
 "$CLI" list                     # 列出显示器
 "$CLI" status                   # 当前状态
@@ -88,11 +98,12 @@ CLI=build/TitanArmy.app/Contents/MacOS/titanarmyctl
 - 应用 Office 与 Game 预设（画面模式分别为 0、3，Overdrive 为 0、3）。
 - 切换 macOS HDR。切换后等待链路重新训练，期间不发送 DDC 请求。
 - 对读取重试、校验和验证、畸形回复过滤，以及写入后的回读验证。
-- 52 个 Swift 测试和 70 项 HAL 驱动检查全部通过；音量、静音、媒体键、应用关闭后播放、
-  输出恢复和持久化已在本机实机验证。
+- 54 个 Swift 测试、6 个 .NET 业务测试和 70 项 HAL 驱动检查全部通过；音量、静音、
+  媒体键、应用关闭后播放、输出恢复和持久化已在本机实机验证。
 
-应用图标母版为 `Assets/AppIcon-1024.png`，打包资源为
-`Assets/AppIcon.icns`。
+应用图标母版为 `Assets/AppIcon-1024.png`，macOS 打包资源为
+`Assets/AppIcon.icns`，Windows 资源为
+`windows/src/TitanArmyControl.Windows/Assets/AppIcon.ico`。
 
 ## 关键硬件发现
 
@@ -178,11 +189,11 @@ swift run -q ReadProbe --restore
 在 Mac 解锁状态下捕获实际运行窗口（包含系统工具栏与液态玻璃），仅读取显示器状态，不修改硬件设置：
 
 ```sh
-open -n -W build/TitanArmy.app --args --render-snapshot /tmp/titanarmy-light.png --snapshot-language zh-Hans
-open -n -W build/TitanArmy.app --args --render-snapshot /tmp/titanarmy-dark.png --snapshot-appearance dark
-open -n -W build/TitanArmy.app --args --render-snapshot /tmp/titanarmy-small.png --snapshot-width 760 --snapshot-height 620
-open -n -W build/TitanArmy.app --args --render-snapshot /tmp/titanarmy-picture.png --snapshot-page picture
-open -n -W build/TitanArmy.app --args --render-snapshot /tmp/titanarmy-empty.png --snapshot-empty
+open -n -W build/TitanArmyControl.app --args --render-snapshot /tmp/titanarmy-light.png --snapshot-language zh-Hans
+open -n -W build/TitanArmyControl.app --args --render-snapshot /tmp/titanarmy-dark.png --snapshot-appearance dark
+open -n -W build/TitanArmyControl.app --args --render-snapshot /tmp/titanarmy-small.png --snapshot-width 760 --snapshot-height 620
+open -n -W build/TitanArmyControl.app --args --render-snapshot /tmp/titanarmy-picture.png --snapshot-page picture
+open -n -W build/TitanArmyControl.app --args --render-snapshot /tmp/titanarmy-empty.png --snapshot-empty
 ```
 
 截图使用 ScreenCaptureKit 的当前进程窗口接口，不申请屏幕录制权限。
@@ -206,12 +217,12 @@ open -n -W build/TitanArmy.app --args --render-snapshot /tmp/titanarmy-empty.png
 Core Audio，正在播放的声音会短暂停顿。现有其他音频组件保持不变。
 
 ```sh
-build/TitanArmy.app/Contents/MacOS/titanarmyctl audio status
-build/TitanArmy.app/Contents/MacOS/titanarmyctl audio enable
-build/TitanArmy.app/Contents/MacOS/titanarmyctl audio volume 40
-build/TitanArmy.app/Contents/MacOS/titanarmyctl audio mute on
-build/TitanArmy.app/Contents/MacOS/titanarmyctl audio mute off
-build/TitanArmy.app/Contents/MacOS/titanarmyctl audio disable
+build/TitanArmyControl.app/Contents/MacOS/titanarmyctl audio status
+build/TitanArmyControl.app/Contents/MacOS/titanarmyctl audio enable
+build/TitanArmyControl.app/Contents/MacOS/titanarmyctl audio volume 40
+build/TitanArmyControl.app/Contents/MacOS/titanarmyctl audio mute on
+build/TitanArmyControl.app/Contents/MacOS/titanarmyctl audio mute off
+build/TitanArmyControl.app/Contents/MacOS/titanarmyctl audio disable
 ./scripts/test-audio-driver.sh
 ```
 

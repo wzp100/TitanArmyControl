@@ -151,7 +151,7 @@ struct ContentView: View {
             }
         }
         .listStyle(.sidebar)
-        .navigationTitle("Titan Army")
+        .navigationTitle("TitanArmyControl")
         .safeAreaInset(edge: .bottom, spacing: 0) {
             HStack(spacing: Layout.small) {
                 if model.isBusy {

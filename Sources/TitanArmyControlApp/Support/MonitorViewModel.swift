@@ -38,7 +38,7 @@ final class MonitorViewModel: ObservableObject {
     private var language: AppLanguage = .systemDefault
     private var l10n: L10n { L10n(language: language) }
 
-    private let workQueue = DispatchQueue(label: "TitanArmy.hardware", qos: .userInitiated)
+    private let workQueue = DispatchQueue(label: "TitanArmyControl.hardware", qos: .userInitiated)
     private var observers: [NSObjectProtocol] = []
 
     var isHDREnabled: Bool { pendingHDR ?? (snapshot.hdrEnabled == true) }
