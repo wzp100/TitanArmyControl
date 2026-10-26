@@ -1,9 +1,15 @@
-# Titan Army P275MV PLUS for macOS
+# TitanArmyControl
 
-原生 macOS 27+ 显示器控制应用，面向 Titan Army P275MV PLUS
-(EDID `LHC 0x907D`)。应用通过 Apple Silicon 的 `IOAVService` 私有接口发送
-DDC/CI，并支持切换 macOS HDR。界面支持简体中文与英文，首次启动跟随系统
-语言，可在右上角即时切换。
+面向 Titan Army P275MV PLUS (EDID `LHC 0x907D`) 的跨平台显示器控制应用。
+业务规则、设备能力和寄存器定义保持跨平台一致，界面与 DDC/CI 传输层按操作系统
+分别实现。
+
+## 平台状态
+
+- macOS 27+：已实现，使用 SwiftUI 与 Apple Silicon `IOAVService`。
+- Windows：开发中，计划使用 Microsoft.UI.Reactor 与 `dxva2.dll` DDC/CI API。
+
+界面支持简体中文与英文，首次启动跟随系统语言，可在应用内即时切换。
 
 ## 界面
 
@@ -16,7 +22,7 @@ DDC/CI，并支持切换 macOS HDR。界面支持简体中文与英文，首次�
 ## 启动
 
 ```sh
-cd /Users/jackcuda/Desktop/Code/TitanArmyMac
+cd /Users/jackcuda/Desktop/Code/TitanArmyControl
 open build/TitanArmy.app
 ```
 
